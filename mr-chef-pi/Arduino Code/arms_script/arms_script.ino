@@ -102,23 +102,38 @@ void genStrings(String payload){
 }
 
 void setupPins(){
-  lBase.attach(2);
-  lShoulder.attach(3);
-  lElbow.attach(4);
-  lWristRot.attach(6);
-  lWristPitch.attach(7);
-  lWristRoll.attach(8);
-  lGripper.attach(10);  
+  lBase.attach(8);
+  lShoulder.attach(9);
+  lElbow.attach(11);
+  lWristRot.attach(10);
+  lWristPitch.attach(12);
+  lWristRoll.attach(13);
+  lGripper.attach(7);
+  rBase.attach(1);
+  rShoulder.attach(2);
+  rElbow.attach(3);
+  rWristRot.attach(4);
+  rWristPitch.attach(5);
+  rWristRoll.attach(6);
+  rGripper.attach(0);  
 }
 
 void init_servos(){
-  lBase.write(90);
+  lBase.write(180);
   lShoulder.write(90);
   lElbow.write(90);
   lWristRot.write(110);
   lWristPitch.write(90);
   lWristRoll.write(0);
-  lGripper.write(95);  
+  lGripper.write(95);
+  
+  rBase.write(0);
+  rShoulder.write(90);
+  rElbow.write(90);
+  rWristRot.write(110);
+  rWristPitch.write(90);
+  rWristRoll.write(0);
+  rGripper.write(95);  
 }
 
 void moveArms(String arm,int angle[]){

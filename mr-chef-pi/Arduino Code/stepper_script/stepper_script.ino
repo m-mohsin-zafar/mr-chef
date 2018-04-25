@@ -9,10 +9,10 @@ int BCurrent=0;
 
 String message[3];
 
-const int LstepPin = 26; 
-const int LdirPin = 28; 
-const int RstepPin = 36; 
-const int RdirPin = 34;
+const int LstepPin = 36; 
+const int LdirPin = 34; 
+const int RstepPin = 26; 
+const int RdirPin = 28;
 float min_speed;
 float range;
 float max_speed;
@@ -72,7 +72,7 @@ void move_stepper(String stepper,String dir,int steps){
 
 void move_left_stepper(int speed_range,String dir,int distance){
   if(dir=="+"){
-    digitalWrite(LdirPin,LOW);
+    digitalWrite(LdirPin,HIGH);
     if(LCurrent+distance<=maxLoc){
       LCurrent+=distance;
       for (int y = 0 ; y < (range*0.2) ; y++){
@@ -107,7 +107,7 @@ void move_left_stepper(int speed_range,String dir,int distance){
       }
     }
   }else if(dir=="-"){
-    digitalWrite(LdirPin,HIGH);
+    digitalWrite(LdirPin,LOW);
     if(LCurrent-distance>=minLoc){
       LCurrent-=distance;
       for (int y = 0 ; y < (range*0.2) ; y++){
@@ -147,7 +147,7 @@ void move_left_stepper(int speed_range,String dir,int distance){
 void move_right_stepper(int speed_range,String dir,int distance){
   
   if(dir=="+"){
-    digitalWrite(RdirPin,HIGH);
+    digitalWrite(RdirPin,LOW);
     if(RCurrent+distance<=maxLoc){
       RCurrent+=distance;
       for (int y = 0 ; y < (range*0.2) ; y++){
@@ -182,7 +182,7 @@ void move_right_stepper(int speed_range,String dir,int distance){
       }
     }
   }else if(dir=="-"){
-    digitalWrite(RdirPin,LOW);
+    digitalWrite(RdirPin,HIGH);
     if(RCurrent-distance>=minLoc){
       RCurrent-=distance;
       for (int y = 0 ; y < (range*0.2) ; y++){
@@ -221,8 +221,8 @@ void move_right_stepper(int speed_range,String dir,int distance){
 
 void move_both_stepper(int speed_range,String dir,int distance){
   if(dir=="+"){
-    digitalWrite(RdirPin,HIGH);
-    digitalWrite(LdirPin,HIGH);
+    digitalWrite(RdirPin,LOW);
+    digitalWrite(LdirPin,LOW);
     if(BCurrent+distance<=upper){
       BCurrent+=distance;
       for (int y = 0 ; y < (range*0.2) ; y++){
@@ -263,8 +263,8 @@ void move_both_stepper(int speed_range,String dir,int distance){
       }
     }
   }else if(dir=="-"){
-    digitalWrite(RdirPin,LOW);
-    digitalWrite(LdirPin,LOW);
+    digitalWrite(RdirPin,HIGH);
+    digitalWrite(LdirPin,HIGH);
     if(BCurrent-distance>=lower){
       BCurrent-=distance;
       for (int y = 0 ; y < (range*0.2) ; y++){
