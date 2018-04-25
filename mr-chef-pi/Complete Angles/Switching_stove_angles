@@ -1,0 +1,69 @@
+switch on stove:
+	initial requirement:
+		Right stepper to move (+35) steps away
+	step 1- make angle:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+
+		Current Angles :  90 	 118 	 95 	 110 	 63 	 70 	 45 	 
+	
+	step 2- locate knob:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+		Current Angles :  133 	 118 	 95 	 110 	 63	 70 	 45 
+	
+	step 3- hold knob:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+
+		Current Angles :  133 	 118 	 95 	 110 	 63 	 70 	 75 
+
+	step 4- rotate knob:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	   6 	 	  7 	
+
+		Current Angles :  133 	 118 	 95 	 110 	 63   [increase_degrees] 	 75
+	step-5 open gripper:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+
+		Current Angles :  133 	 118 	 95 	 110 	 63 	 70 	 45 	 
+	
+	step-6 Get back:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+
+		Current Angles :  90 	 118 	 95 	 110 	 63 	 70 	 45 	 		
+	
+	step-7 Get Home============================================================
+
+
+switch off stove:
+	initial requirement:
+		Right stepper to move (+35) steps away
+	step 1- make angle:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+
+		Current Angles :  90 	 118 	 95 	 110 	 63 	 70 	 45 	 
+	
+	step 2- locate knob:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+		Current Angles :  133 	 118 	 95 	 110 	 63	 70 	 45 
+	
+	step 3- hold knob:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+
+		Current Angles :  133 	 118 	 95 	 110 	 63 	 70 	 75 
+
+	step 4- rotate knob:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	   6 	 	  7 	
+
+		Current Angles :  133 	 118 	 95 	 110 	 63   [decrease_degrees] 	 75
+	step-5 open gripper:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+
+		Current Angles :  133 	 118 	 95 	 110 	 63 	 70 	 45 	 
+	
+	step-6 Get back:
+		Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+
+		Current Angles :  90 	 118 	 95 	 110 	 63 	 70 	 45 	 		
+	
+	step-7 Get Home============================================================
+	
