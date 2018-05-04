@@ -44,12 +44,12 @@ void loop(){
       String mode=payload.substring(0,space_index);
       genStrings(payload);      
       Serial.println(arm);
-      Serial.println("*****");
-      for(int x=0;x<7;x++){
-        Serial.println(angles[x]);
-        Serial.println(speed_[x]);
-        Serial.println("____");
-      }
+//      Serial.println("*****");
+//      for(int x=0;x<7;x++){
+//        Serial.println(angles[x]);
+//        Serial.println(speed_[x]);
+//        Serial.println("____");
+//      }
       Serial.println("======================================");
       if(mode=="I"){
         moveArms(arm,angles); 
@@ -102,60 +102,52 @@ void genStrings(String payload){
 }
 
 void setupPins(){
-  lBase.attach(8);
-  lShoulder.attach(9);
+  rBase.attach(7);
+  rShoulder.attach(6);
+  rElbow.attach(5);
+  rWristRot.attach(4);
+  rWristPitch.attach(3);
+  rWristRoll.attach(2);
+  rGripper.attach(44);
+  
+  lBase.attach(13);
+  lShoulder.attach(12);
   lElbow.attach(11);
   lWristRot.attach(10);
-  lWristPitch.attach(12);
-  lWristRoll.attach(13);
-  lGripper.attach(7);
-  rBase.attach(1);
-  rShoulder.attach(2);
-  rElbow.attach(3);
-  rWristRot.attach(4);
-  rWristPitch.attach(5);
-  rWristRoll.attach(6);
-  rGripper.attach(0);  
+  lWristPitch.attach(9);
+  lWristRoll.attach(8);
+  lGripper.attach(45);  
 }
 
 void init_servos(){
-  lBase.write(180);
-  lShoulder.write(90);
-  lElbow.write(90);
-  lWristRot.write(110);
-  lWristPitch.write(90);
-  lWristRoll.write(0);
-  lGripper.write(95);
-  
   rBase.write(0);
   rShoulder.write(90);
-  rElbow.write(90);
+  rElbow.write(100);
   rWristRot.write(110);
-  rWristPitch.write(90);
+  rWristPitch.write(110);
   rWristRoll.write(0);
-  rGripper.write(95);  
+  rGripper.write(95);
+  
+  lBase.write(180);
+  lShoulder.write(90);
+  lElbow.write(110);
+  lWristRot.write(110);
+  lWristPitch.write(110);
+  lWristRoll.write(0);
+  lGripper.write(95);  
+  
 }
 
 void moveArms(String arm,int angle[]){
   if(arm=="Left"){
      
      int current=lBase.read();
-     if(current!=angle[0]){
-       if(angle[0] > current){
-         increase_angle(current,angle[0],lBase,speed_[0]);
+     if(current!=(180-angle[0])){
+       if((180-angle[0]) > current){
+         increase_angle(current,(180-angle[0]),lBase,speed_[0]);
        }
        else{
-         decrease_angle(current,angle[0],lBase,speed_[0]);
-       }
-     }
-     
-     current=lElbow.read();
-     if(current!=angle[2]){
-       if(angle[2] > current){
-         increase_angle(current,angle[2],lElbow,speed_[2]);
-       }
-       else{
-         decrease_angle(current,angle[2],lElbow,speed_[2]);
+         decrease_angle(current,(180-angle[0]),lBase,speed_[0]);
        }
      }
      
@@ -166,6 +158,16 @@ void moveArms(String arm,int angle[]){
        }
        else{
          decrease_angle(current,angle[1],lShoulder,speed_[1]);
+       }
+     }
+     
+     current=lElbow.read();
+     if(current!=angle[2]){
+       if(angle[2] > current){
+         increase_angle(current,angle[2],lElbow,speed_[2]);
+       }
+       else{
+         decrease_angle(current,angle[2],lElbow,speed_[2]);
        }
      }
      
@@ -209,6 +211,79 @@ void moveArms(String arm,int angle[]){
        }
      }
   }
+  
+  if(arm=="Right"){
+     
+     int current=rBase.read();
+     if(current!=angle[0]){
+       if(angle[0] > current){
+         increase_angle(current,angle[0],rBase,speed_[0]);
+       }
+       else{
+         decrease_angle(current,angle[0],rBase,speed_[0]);
+       }
+     }
+     
+     current=rElbow.read();
+     if(current!=angle[2]){
+       if(angle[2] > current){
+         increase_angle(current,angle[2],rElbow,speed_[2]);
+       }
+       else{
+         decrease_angle(current,angle[2],rElbow,speed_[2]);
+       }
+     }
+     
+     current=rShoulder.read();
+     if(current!=angle[1]){
+       if(angle[1] > current){
+         increase_angle(current,angle[1],rShoulder,speed_[1]);
+       }
+       else{
+         decrease_angle(current,angle[1],rShoulder,speed_[1]);
+       }
+     }
+     
+     current=rWristRot.read();
+     if(current!=angle[3]){
+       if(angle[3] > current){
+         increase_angle(current,angle[3],rWristRot,speed_[3]);
+       }
+       else{
+         decrease_angle(current,angle[3],rWristRot,speed_[3]);
+       }
+     }
+     
+     current=rWristPitch.read();
+     if(current!=angle[4]){
+       if(angle[4] > current){
+         increase_angle(current,angle[4],rWristPitch,speed_[4]);
+       }
+       else{
+         decrease_angle(current,angle[4],rWristPitch,speed_[4]);
+       }
+     }
+     
+     current=rWristRoll.read();
+     if(current!=angle[5]){
+       if(angle[5] > current){
+         increase_angle(current,angle[5],rWristRoll,speed_[5]);
+       }
+       else{
+         decrease_angle(current,angle[5],rWristRoll,speed_[5]);
+       }
+     }
+     
+     current=rGripper.read();
+     if(current!=angle[6]){
+       if(angle[6] > current){
+         increase_angle(current,angle[6],rGripper,speed_[6]);
+       }
+       else{
+         decrease_angle(current,angle[6],rGripper,speed_[6]);
+       }
+     }
+  }
 }
 
 
@@ -226,6 +301,16 @@ void moveArms(String arm,int angle[]){
        delay(speed_);
      }
  }    
+ 
+ void increase_angle_simultaneously_base(int old_ang,int new_ang,Servo servo1,Servo servo2, int speed_){
+   int lCounter=180-old_ang;
+   int rCounter=old_ang;
+   for(int ang=old_ang;ang<=new_ang;ang++){
+       servo1.write(lCounter--);
+       servo2.write(rCounter++);
+       delay(speed_);
+     }
+ }
      
      
  void decrease_angle(int old_ang,int new_ang,Servo servo,int speed_){
@@ -239,6 +324,16 @@ void moveArms(String arm,int angle[]){
    for(int ang=old_ang;ang>=new_ang;ang--){
        servo1.write(ang);
        servo2.write(ang);
+       delay(speed_);
+     }
+ }
+ 
+  void decrease_angle_simultaneously_base(int old_ang,int new_ang,Servo servo1,Servo servo2,int speed_){
+   int lCounter=180-old_ang;
+   int rCounter=old_ang;
+   for(int ang=old_ang;ang>=new_ang;ang--){
+       servo1.write(lCounter++);
+       servo2.write(rCounter--);
        delay(speed_);
      }
  }
@@ -321,27 +416,18 @@ void moveArms(String arm,int angle[]){
    
    if(lGripper.read()<95 && rGripper.read()<95){
      increase_angle_simultaneously(lGripper.read(),95,lGripper,rGripper,speed_[6]);
-   } 
+   }
+   
 }
 
 void moveArms_Simultaneously(int angle[]){
-  int current=lBase.read();
+  int current=rBase.read(); 
    if(current!=angle[0]){
      if(angle[0] > current){
-       increase_angle_simultaneously(current,angle[0],lBase,rBase,speed_[0]);
+       increase_angle_simultaneously_base(current,angle[0],lBase,rBase,speed_[0]);
      }
      else{
-       decrease_angle_simultaneously(current,angle[0],lBase,rBase,speed_[0]);
-     }
-   }
-   
-   current=lElbow.read();
-   if(current!=angle[2]){
-     if(angle[2] > current){
-       increase_angle_simultaneously(current,angle[2],lElbow,rElbow,speed_[2]);
-     }
-     else{
-       decrease_angle_simultaneously(current,angle[2],lElbow,rElbow,speed_[2]);
+       decrease_angle_simultaneously_base(current,angle[0],lBase,rBase,speed_[0]);
      }
    }
    
@@ -349,12 +435,26 @@ void moveArms_Simultaneously(int angle[]){
    if(current!=angle[1]){
      if(angle[1] > current){
        increase_angle_simultaneously(current,angle[1],lShoulder,rShoulder,speed_[1]);
+       increase_angle(rShoulder.read(),(rShoulder.read()+6),rShoulder,speed_[1]);
      }
      else{
        decrease_angle_simultaneously(current,angle[1],lShoulder,rShoulder,speed_[1]);
+       increase_angle(rShoulder.read(),(rShoulder.read()+6),rShoulder,speed_[1]);
      }
    }
    
+   current=lElbow.read();
+   if(current!=angle[2]){
+     if(angle[2] > current){
+       increase_angle_simultaneously(current,angle[2],lElbow,rElbow,speed_[2]);
+       decrease_angle(rElbow.read(),(rElbow.read()-10),rElbow,speed_[2]);
+     }
+     else{
+       decrease_angle_simultaneously(current,angle[2],lElbow,rElbow,speed_[2]);
+       decrease_angle(rElbow.read(),(rElbow.read()-10),rElbow,speed_[2]);
+     }
+   }
+//   
    current=lWristRot.read();
    if(current!=angle[3]){
      if(angle[3] > current){
@@ -364,7 +464,7 @@ void moveArms_Simultaneously(int angle[]){
        decrease_angle_simultaneously(current,angle[3],lWristRot,rWristRot,speed_[3]);
      }
    }
-   
+//   
    current=lWristPitch.read();
    if(current!=angle[4]){
      if(angle[4] > current){
@@ -389,9 +489,11 @@ void moveArms_Simultaneously(int angle[]){
    if(current!=angle[6]){
      if(angle[6] > current){
        increase_angle_simultaneously(current,angle[6],lGripper,rGripper,speed_[6]);
+       decrease_angle(rGripper.read(),rGripper.read()-10,rGripper,speed_[6]);
      }
      else{
        decrease_angle_simultaneously(current,angle[6],lGripper,rGripper,speed_[6]);
+       decrease_angle(rGripper.read(),rGripper.read()-10,rGripper,speed_[6]);
      }
    }
 }

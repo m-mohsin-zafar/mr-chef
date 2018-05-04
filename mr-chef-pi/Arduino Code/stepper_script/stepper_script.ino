@@ -1,7 +1,4 @@
-int minLoc=0;
-int maxLoc=62;
-int lower=-62;
-int upper=62;
+
 
 int LCurrent=0;
 int RCurrent=0;
@@ -9,6 +6,8 @@ int BCurrent=0;
 
 String message[3];
 
+const int Rendstop=3;
+const int Lendstop=14;
 const int LstepPin = 36; 
 const int LdirPin = 34; 
 const int RstepPin = 26; 
@@ -24,6 +23,8 @@ void setup(){
   pinMode(LdirPin,OUTPUT);
   pinMode(RstepPin,OUTPUT); 
   pinMode(RdirPin,OUTPUT);
+  pinMode(Rendstop, INPUT);
+  pinMode(Lendstop, INPUT);
   pinMode(24,OUTPUT);
   pinMode(30,OUTPUT);
   digitalWrite(24,LOW);
@@ -33,8 +34,15 @@ void setup(){
 void loop(){
   if (Serial.available()) {
     String payload=Serial.readString();
-    genStrings(payload);
-    move_stepper(message[0],message[1],(message[2]).toInt());
+    if(payload=="Home L"){
+      homeLeft();
+    }else if(payload=="Home R"){
+      homeRight();
+    }
+    else{
+      genStrings(payload);
+      move_stepper(message[0],message[1],(message[2]).toInt());
+    }
     Serial.println(LCurrent);
     Serial.println(RCurrent);
     Serial.println(BCurrent);
@@ -73,73 +81,69 @@ void move_stepper(String stepper,String dir,int steps){
 void move_left_stepper(int speed_range,String dir,int distance){
   if(dir=="+"){
     digitalWrite(LdirPin,HIGH);
-    if(LCurrent+distance<=maxLoc){
-      LCurrent+=distance;
-      for (int y = 0 ; y < (range*0.2) ; y++){
-        
-        min_speed = min_speed - ((speed_range)/(range*.2));
-        
-        digitalWrite(LstepPin,HIGH); 
-        delayMicroseconds(min_speed);
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);
-        
-      }
+    LCurrent+=distance;
+    for (int y = 0 ; y < (range*0.2) ; y++){
       
-      for (int x = 0 ; x < (range*.6) ; x++){
-        
-        digitalWrite(LstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);
-        
-      }
+      min_speed = min_speed - ((speed_range)/(range*.2));
       
-      for (int z = 0 ; z < (range*.2) ; z++){
-        
-        min_speed = min_speed + ((speed_range)/(range*.2));
-        
-        digitalWrite(LstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);   
-        
-      }
+      digitalWrite(LstepPin,HIGH); 
+      delayMicroseconds(min_speed);
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);
+      
+    }
+    
+    for (int x = 0 ; x < (range*.6) ; x++){
+      
+      digitalWrite(LstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);
+      
+    }
+    
+    for (int z = 0 ; z < (range*.2) ; z++){
+      
+      min_speed = min_speed + ((speed_range)/(range*.2));
+      
+      digitalWrite(LstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);   
+      
     }
   }else if(dir=="-"){
     digitalWrite(LdirPin,LOW);
-    if(LCurrent-distance>=minLoc){
-      LCurrent-=distance;
-      for (int y = 0 ; y < (range*0.2) ; y++){
-        
-        min_speed = min_speed - ((speed_range)/(range*.2));
-        
-        digitalWrite(LstepPin,HIGH); 
-        delayMicroseconds(min_speed);
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);
-        
-      }
+    LCurrent-=distance;
+    for (int y = 0 ; y < (range*0.2) ; y++){
       
-      for (int x = 0 ; x < (range*.6) ; x++){
-        
-        digitalWrite(LstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);
-        
-      }
+      min_speed = min_speed - ((speed_range)/(range*.2));
       
-      for (int z = 0 ; z < (range*.2) ; z++){
-        
-        min_speed = min_speed + ((speed_range)/(range*.2));
-        
-        digitalWrite(LstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);   
-        
-      }
+      digitalWrite(LstepPin,HIGH); 
+      delayMicroseconds(min_speed);
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);
+      
+    }
+    
+    for (int x = 0 ; x < (range*.6) ; x++){
+      
+      digitalWrite(LstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);
+      
+    }
+    
+    for (int z = 0 ; z < (range*.2) ; z++){
+      
+      min_speed = min_speed + ((speed_range)/(range*.2));
+      
+      digitalWrite(LstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);   
+      
     }
   }
 }
@@ -148,73 +152,69 @@ void move_right_stepper(int speed_range,String dir,int distance){
   
   if(dir=="+"){
     digitalWrite(RdirPin,LOW);
-    if(RCurrent+distance<=maxLoc){
-      RCurrent+=distance;
-      for (int y = 0 ; y < (range*0.2) ; y++){
-        
-        min_speed = min_speed - ((speed_range)/(range*.2));
-        
-        digitalWrite(RstepPin,HIGH); 
-        delayMicroseconds(min_speed);
-        digitalWrite(RstepPin,LOW); 
-        delayMicroseconds(min_speed);
-        
-      }
+    RCurrent+=distance;
+    for (int y = 0 ; y < (range*0.2) ; y++){
       
-      for (int x = 0 ; x < (range*.6) ; x++){
-        
-        digitalWrite(RstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(RstepPin,LOW); 
-        delayMicroseconds(min_speed);
-        
-      }
+      min_speed = min_speed - ((speed_range)/(range*.2));
       
-      for (int z = 0 ; z < (range*.2) ; z++){
-        
-        min_speed = min_speed + ((speed_range)/(range*.2));
-        
-        digitalWrite(RstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(RstepPin,LOW); 
-        delayMicroseconds(min_speed);   
-        
-      }
+      digitalWrite(RstepPin,HIGH); 
+      delayMicroseconds(min_speed);
+      digitalWrite(RstepPin,LOW); 
+      delayMicroseconds(min_speed);
+      
+    }
+    
+    for (int x = 0 ; x < (range*.6) ; x++){
+      
+      digitalWrite(RstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(RstepPin,LOW); 
+      delayMicroseconds(min_speed);
+      
+    }
+    
+    for (int z = 0 ; z < (range*.2) ; z++){
+      
+      min_speed = min_speed + ((speed_range)/(range*.2));
+      
+      digitalWrite(RstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(RstepPin,LOW); 
+      delayMicroseconds(min_speed);   
+      
     }
   }else if(dir=="-"){
     digitalWrite(RdirPin,HIGH);
-    if(RCurrent-distance>=minLoc){
-      RCurrent-=distance;
-      for (int y = 0 ; y < (range*0.2) ; y++){
-        
-        min_speed = min_speed - ((speed_range)/(range*.2));
-        
-        digitalWrite(RstepPin,HIGH); 
-        delayMicroseconds(min_speed);
-        digitalWrite(RstepPin,LOW); 
-        delayMicroseconds(min_speed);
-        
-      }
+    RCurrent-=distance;
+    for (int y = 0 ; y < (range*0.2) ; y++){
       
-      for (int x = 0 ; x < (range*.6) ; x++){
-        
-        digitalWrite(RstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(RstepPin,LOW); 
-        delayMicroseconds(min_speed);
-        
-      }
+      min_speed = min_speed - ((speed_range)/(range*.2));
       
-      for (int z = 0 ; z < (range*.2) ; z++){
-        
-        min_speed = min_speed + ((speed_range)/(range*.2));
-        
-        digitalWrite(RstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(RstepPin,LOW); 
-        delayMicroseconds(min_speed);   
-        
-      }
+      digitalWrite(RstepPin,HIGH); 
+      delayMicroseconds(min_speed);
+      digitalWrite(RstepPin,LOW); 
+      delayMicroseconds(min_speed);
+      
+    }
+    
+    for (int x = 0 ; x < (range*.6) ; x++){
+      
+      digitalWrite(RstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(RstepPin,LOW); 
+      delayMicroseconds(min_speed);
+      
+    }
+    
+    for (int z = 0 ; z < (range*.2) ; z++){
+      
+      min_speed = min_speed + ((speed_range)/(range*.2));
+      
+      digitalWrite(RstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(RstepPin,LOW); 
+      delayMicroseconds(min_speed);   
+      
     }
   }
 }
@@ -223,87 +223,104 @@ void move_both_stepper(int speed_range,String dir,int distance){
   if(dir=="+"){
     digitalWrite(RdirPin,LOW);
     digitalWrite(LdirPin,LOW);
-    if(BCurrent+distance<=upper){
-      BCurrent+=distance;
-      for (int y = 0 ; y < (range*0.2) ; y++){
-        
-        min_speed = min_speed - ((speed_range)/(range*.2));
-        
-        digitalWrite(RstepPin,HIGH);
-        digitalWrite(LstepPin,HIGH);
-        delayMicroseconds(min_speed);
-        digitalWrite(RstepPin,LOW);
-        digitalWrite(LstepPin,LOW);
-        delayMicroseconds(min_speed);
-        
-      }
+    BCurrent+=distance;
+    for (int y = 0 ; y < (range*0.2) ; y++){
       
-      for (int x = 0 ; x < (range*.6) ; x++){
-        
-        digitalWrite(RstepPin,HIGH); 
-        digitalWrite(LstepPin,HIGH);
-        delayMicroseconds(min_speed); 
-        digitalWrite(RstepPin,LOW);
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);;
-        
-      }
+      min_speed = min_speed - ((speed_range)/(range*.2));
       
-      for (int z = 0 ; z < (range*.2) ; z++){
-        
-        min_speed = min_speed + ((speed_range)/(range*.2));
-        
-        digitalWrite(RstepPin,HIGH);
-        digitalWrite(LstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(RstepPin,LOW);
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);   
-        
-      }
+      digitalWrite(RstepPin,HIGH);
+      digitalWrite(LstepPin,HIGH);
+      delayMicroseconds(min_speed);
+      digitalWrite(RstepPin,LOW);
+      digitalWrite(LstepPin,LOW);
+      delayMicroseconds(min_speed);
+      
     }
+    
+    for (int x = 0 ; x < (range*.6) ; x++){
+      
+      digitalWrite(RstepPin,HIGH); 
+      digitalWrite(LstepPin,HIGH);
+      delayMicroseconds(min_speed); 
+      digitalWrite(RstepPin,LOW);
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);;
+      
+    }
+    
+    for (int z = 0 ; z < (range*.2) ; z++){
+      
+      min_speed = min_speed + ((speed_range)/(range*.2));
+      
+      digitalWrite(RstepPin,HIGH);
+      digitalWrite(LstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(RstepPin,LOW);
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);   
+      
+    }
+
   }else if(dir=="-"){
     digitalWrite(RdirPin,HIGH);
     digitalWrite(LdirPin,HIGH);
-    if(BCurrent-distance>=lower){
-      BCurrent-=distance;
-      for (int y = 0 ; y < (range*0.2) ; y++){
-        
-        min_speed = min_speed - ((speed_range)/(range*.2));
-        
-        digitalWrite(RstepPin,HIGH);
-        digitalWrite(LstepPin,HIGH);
-        delayMicroseconds(min_speed);
-        digitalWrite(RstepPin,LOW);
-        digitalWrite(LstepPin,LOW);
-        delayMicroseconds(min_speed);
-        
-      }
+    BCurrent-=distance;
+    for (int y = 0 ; y < (range*0.2) ; y++){
       
-      for (int x = 0 ; x < (range*.6) ; x++){
-        
-        digitalWrite(RstepPin,HIGH); 
-        digitalWrite(LstepPin,HIGH);
-        delayMicroseconds(min_speed); 
-        digitalWrite(RstepPin,LOW);
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);
-        
-      }
+      min_speed = min_speed - ((speed_range)/(range*.2));
       
-      for (int z = 0 ; z < (range*.2) ; z++){
-        
-        min_speed = min_speed + ((speed_range)/(range*.2));
-        
-        digitalWrite(RstepPin,HIGH);
-        digitalWrite(LstepPin,HIGH); 
-        delayMicroseconds(min_speed); 
-        digitalWrite(RstepPin,LOW);
-        digitalWrite(LstepPin,LOW); 
-        delayMicroseconds(min_speed);   
-        
-      }
+      digitalWrite(RstepPin,HIGH);
+      digitalWrite(LstepPin,HIGH);
+      delayMicroseconds(min_speed);
+      digitalWrite(RstepPin,LOW);
+      digitalWrite(LstepPin,LOW);
+      delayMicroseconds(min_speed);
+      
     }
+    
+    for (int x = 0 ; x < (range*.6) ; x++){
+      
+      digitalWrite(RstepPin,HIGH); 
+      digitalWrite(LstepPin,HIGH);
+      delayMicroseconds(min_speed); 
+      digitalWrite(RstepPin,LOW);
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);
+      
+    }
+    
+    for (int z = 0 ; z < (range*.2) ; z++){
+      
+      min_speed = min_speed + ((speed_range)/(range*.2));
+      
+      digitalWrite(RstepPin,HIGH);
+      digitalWrite(LstepPin,HIGH); 
+      delayMicroseconds(min_speed); 
+      digitalWrite(RstepPin,LOW);
+      digitalWrite(LstepPin,LOW); 
+      delayMicroseconds(min_speed);   
+      
+    }
+  }
+}
+
+void homeRight(){
+  digitalWrite(RdirPin,HIGH);
+  while(digitalRead(Rendstop)!=LOW){
+    digitalWrite(RstepPin,HIGH); 
+    delayMicroseconds(500);
+    digitalWrite(RstepPin,LOW); 
+    delayMicroseconds(500);
+  }
+}
+
+void homeLeft(){
+  digitalWrite(LdirPin,LOW);
+  while(digitalRead(Lendstop)!=LOW){
+    digitalWrite(LstepPin,HIGH); 
+    delayMicroseconds(500);
+    digitalWrite(LstepPin,LOW); 
+    delayMicroseconds(500);
   }
 }
 
