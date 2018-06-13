@@ -1,0 +1,9 @@
+1:Rasberry pi initializes Arms and Steppers.
+2:Raspberry pi gets connected to MQTT Broker through MQTTClient.py.
+3:Raspberry pi turns into Listening State through MQTTClient.py.
+4:Upon receiving "check" Command, MQTTClient.py sends "Ack" Command back to MQTT broker and gets back to Listening mode.
+5:Upon receiving "update" Command, MQTTClient.py starts downloading the recipe from Firebase through Fetch_Recipe.py and Stores it in Local Database and gets back to Listening mode.
+6:Upon receiving "cook" Command, MQTTClient.py initiates a command of start cooking with recipe name given, then Chef.py's Cook method is invoked which first loads the recipe specific information from local database through Loader.py and perform those set of instructions in the same class and when it encounters an arm's step, it deals with Arms modules and when it encounters a stepper's instruction, then it deals with Steppers module.Upon Successful completion of each step it initates a command contaning "the status" info to MQTT broker through MQTTClient.   
+7:Upon receiving "stop cooking" Command, MQTTClient.py terminates the cooking imidiately if cooking is taking place and gets back to Listening mode.
+
+	

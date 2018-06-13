@@ -1,0 +1,87 @@
+All ingredients (Left to Right):
+	step-2 Locate area:
+			ING-1 steps from home:
+				Left Stepper : +58
+			ING-2 steps from home:
+				Left Stepper : +48
+			ING-3 steps from home:
+				Left Stepper : +38
+			ING-4 steps from home:
+				Left Stepper : +28
+			ING-5 steps from home:
+				Left Stepper : +18
+			ING-6 steps from home:
+				Left Stepper : +8
+
+	PICK:
+		step-1: precondition Right arm to move +35
+		
+		step-2 Get Pose:
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+			Current Angles :  180 	 80 	 60 	 110 	 180 	 0 	 40 
+		
+		step-3 Locate Area mentioned above.	
+		
+		step-4 Locate ING:
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+			Current Angles :  180 	 180 	 60 	 110 	 180 	 0 	 40
+	
+		step-5 Hold ING:
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+			Current Angles :  180 	 180 	 60 	 110 	 180 	 0 	 60 
+		
+		step-6 Get back to Pose:
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+			Current Angles :  10 	 80 	 90 	 110 	 170 	 0 	 60
+		step-7 Stepper to go home:
+ 	
+	POUR:
+			
+		precondition:
+			stepper must be at Home.
+		
+		step-1 get on Pan:
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+
+			Current Angles :  10 	 80 	 95 	 110 	 170 	 0 	 60 
+		
+		step-2(a) pour ING:
+			Left Arm-------:  1 	 2 	 3 	 4 	 5	  6 	 7 	
+
+			Current Angles :  10 	 80 	 95 	 110 	 170 	 120 	60
+		step-2(b) pour ING:
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	7 	
+
+			Current Angles :  10 	 80 	 95 	 110 	 170 	 0 	60
+		
+		->repeat step 2(a) and 2(b) required times
+	
+	PLACE:
+		step-1 Locate Area mentioned above. 
+		
+		step-2 get pose:
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+			Current Angles :  180 	 80 	 60 	 110 	 180 	 0 	 60
+		
+		step-3 Locate postiton:
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+			Current Angles :  180 	 180 	 60 	 110 	 180 	 0 	 60	
+		
+		step-3 Place Ingredient:
+			
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+			Current Angles :  180 	 180 	 60 	 110 	 180 	 0 	 40
+		step-4 Get back to pose:
+			
+			Left Arm-------:  1 	 2 	 3 	 4 	 5 	 6 	 7 	
+	
+			Current Angles :  180 	 80 	 60 	 110 	 180 	 0 	 40
+
+		step-4 Go Home
