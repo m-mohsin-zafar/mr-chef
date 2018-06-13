@@ -1,7 +1,8 @@
 from firebase import firebase as fb
 from ast import literal_eval
-class fetchRecipe:
 
+
+class fetchRecipe:
 
     def __init__(self,url):
         try:
@@ -23,23 +24,23 @@ class fetchRecipe:
         result = ()
         result+=(recipe_name,)
         for x in range(len(recipe['ingredients'])):
-            if x!=len(recipe['ingredients'])-1:
+            if x != len(recipe['ingredients'])-1:
                 ingredients += "{},".format(recipe['ingredients']["ing_{:02}".format(x+1)])
             else:
                 ingredients += "{}".format(recipe['ingredients']["ing_{:02}".format(x+1)])
         result+=(ingredients,)
         for x in range(len(recipe['utensils'])):
-            if x!=len(recipe['utensils'])-1:
+            if x != len(recipe['utensils'])-1:
                 utensils += "{},".format(recipe['utensils']["ute_{:02}".format(x+1)])
             else:
                 utensils += "{}".format(recipe['utensils']["ute_{:02}".format(x+1)])
-        result+=(utensils,)
+        result += (utensils,)
         for x in range(len(recipe['instructions'])):
             if x!=len(recipe['instructions'])-1:
                 instructions += "{},".format(recipe['instructions']["ins_{:02}".format(x+1)])
             else:
                 instructions += "{}".format(recipe['instructions']["ins_{:02}".format(x+1)])
-        result+=(instructions,)
+        result += (instructions,)
         if(ingredients is not None and utensils is not None and instructions is not None):
             return result
         else:

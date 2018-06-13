@@ -5,13 +5,6 @@ class Database:
     def open_dbconneciton(self, database):
         return db.connect("localhost", "root", "root", database)
 
-    def create_table(self, connection, table_name, columns):
-        cur = connection.cursor()
-        query = "create table {} ({})".format(table_name,columns)
-        try:
-            cur.execute(query)
-        except ConnectionError:
-            connection.rollback()
 
     def insert_recipe(self, connection, data):
         cur = connection.cursor()
@@ -24,16 +17,43 @@ class Database:
             connection.rollback()
         return False
 
-    def show_records(self, connection, table_name):
+    def get_recipe(self, connection, recipe_name):
         cur = connection.cursor()
         try:
-            cur.execute("select * from {}".format(table_name))
+            cur.execute("select instructions from recipe_tb where name='{}'".format(recipe_name))
             result = cur.fetchall()
         except ConnectionError:
             connection.rollback()
         if result is not None:
             return result
-    def get_ingredients(self,connection,name):
+        else:
+            return None
+
+    def get_recipe_ingredients(self, connection, recipe_name):
+        cur = connection.cursor()
+        try:
+            cur.execute("select ingredients from recipe_tb where name='{}'".format(recipe_name))
+            result = cur.fetchall()
+        except ConnectionError:
+            connection.rollback()
+        if result is not None:
+            return result
+        else:
+            return None
+
+    def get_recipe_utensils(self, connection, recipe_name):
+        cur = connection.cursor()
+        try:
+            cur.execute("select utensils from recipe_tb where name='{}'".format(recipe_name))
+            result = cur.fetchall()
+        except ConnectionError:
+            connection.rollback()
+        if result is not None:
+            return result
+        else:
+            return None
+
+    def get_ingredients_angles(self,connection,name):
         cur = connection.cursor()
         try:
             cur.execute("select angles from ingredients_tb where name='{}'".format(name))
@@ -43,7 +63,7 @@ class Database:
         if result is not None:
             return result[0]
 
-    def get_crockery(self, connection, name):
+    def get_crockery_angles(self, connection, name):
         cur = connection.cursor()
         try:
             cur.execute("select angles from crockery_tb where name='{}'".format(name))
@@ -51,7 +71,6 @@ class Database:
         except ConnectionError:
             connection.rollback()
         if result is not None:
-            print(result)
             return result[0]
 
     def close_dbconnection(self, connection):

@@ -8,7 +8,7 @@ class Arms:
     elbow = 110
     wrist_rot = 110
     wrist_pitch = 110
-    wrist_roll = 90
+    wrist_roll = 0
     gripper = 40
 
     # Speed Variables LIMIT: (5<= speed <= 15)
@@ -82,9 +82,9 @@ class Arms:
         self.gripper = gripper
         self.gripperSpeed = speed
 
-    # Homing
-    def home(self):
-        self.com.send_homing(self.get_arm())
+    # Synchronization
+    def synchronize(self, message):
+        self.com.get_synchronized(message)
 
     # Send Message
     def send_angles(self, delay):

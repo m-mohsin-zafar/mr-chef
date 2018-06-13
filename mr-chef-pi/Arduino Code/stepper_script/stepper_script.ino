@@ -34,7 +34,10 @@ void setup(){
 void loop(){
   if (Serial.available()) {
     String payload=Serial.readString();
-    if(payload=="Home L"){
+    if(payload=="SYNC"){
+      Serial.println("SYNC ACK");
+      delay(4000);
+    }else if(payload=="Home L"){
       homeLeft();
     }else if(payload=="Home R"){
       homeRight();
@@ -43,9 +46,6 @@ void loop(){
       genStrings(payload);
       move_stepper(message[0],message[1],(message[2]).toInt());
     }
-    Serial.println(LCurrent);
-    Serial.println(RCurrent);
-    Serial.println(BCurrent);
   }
 }
 

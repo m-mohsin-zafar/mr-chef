@@ -2,7 +2,6 @@ from Steppers import Communication as serial_comm
 
 
 class Stepper:
-    current_steps=0;
     def __init__(self, name, direction, distance):
         self.com = serial_comm.Communication()
         self.name = name
@@ -25,12 +24,14 @@ class Stepper:
         self.direction = direction
         self.distance = distance
         message = "{} {} {}".format(self.name, self.direction, self.distance)
-        self.com.send(message,delay)
+        self.com.send(message, delay)
 
     def home(self, delay):
         self.com.send_home(self.get_name(), delay)
-        self.current_steps=0
 
+    # Synchronization
+    def synchronize(self, message):
+        self.com.get_synchronized(message)
 
 class LeftStepper(Stepper):
 

@@ -16,10 +16,22 @@ class Communication:
         except ConnectionRefusedError:
             print("Unable to send message : {}".format(message));
 
-    def send_home(self, arm,delay):
+    def send_home(self, arm, delay):
         try:
             message = 'Home {}'.format(arm)
             self.arduino_serial_data.write(message.encode('utf-8'))
             time.sleep(delay)
+        except ConnectionRefusedError:
+            print("Unable to send message : {}".format(message))
+
+    def get_synchronized(self, message):
+        try:
+            self.arduino_serial_data.write(message.encode('utf-8'))
+            time.sleep(2)
+            while self.arduino_serial_data.in_waiting > 0:
+                message = self.arduino_serial_data.readline().decode()
+                print(message)
+                if message == "SYNC ACK":
+                    return
         except ConnectionRefusedError:
             print("Unable to send message : {}".format(message))

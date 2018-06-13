@@ -4,8 +4,8 @@ from Firebase import Fetch_Recipe as fr
 
 class MQTTClient:
 
-    def __init__(self, client_name, cook):
-        self.cook = cook
+    def __init__(self, client_name, chef):
+        self.chef = chef
         self.client = mqtt.Client(client_name)
         self.client.on_log = self.on_log
         self.client.on_connect = self.on_connect
@@ -31,7 +31,7 @@ class MQTTClient:
             database.close_dbconnection(conn)
         elif str(msg.payload.decode('utf-8')).split(" ")[0] == 'cook':
             print("Cooking Started!")
-            self.cook.Start()
+            self.chef.cook(str(msg.payload.decode('utf-8')).split(" ")[1])
         elif str(msg.payload.decode('utf-8')) == 'stop cooking':
             pass
         elif str(msg.payload.decode('utf-8')) == 'check':

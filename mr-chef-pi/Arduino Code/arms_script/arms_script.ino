@@ -30,27 +30,15 @@ void loop(){
   if (Serial.available()) {
     String payload="";
     payload=Serial.readString();
-    if(payload == "Left goHome"){
-      getHome();
-    }
-    else if(payload == "Right goHome"){
-      Serial.println("Right goHome Called!");
-    }
-    else if(payload == "Both goHome"){
-      Serial.println("Both goHome Called!");
+    
+    if(payload == "SYNC"){
+      Serial.println("SYNC ACK");
+      delay(4000);
     }
     else{
       int space_index=payload.indexOf(" ");
       String mode=payload.substring(0,space_index);
       genStrings(payload);      
-      Serial.println(arm);
-//      Serial.println("*****");
-//      for(int x=0;x<7;x++){
-//        Serial.println(angles[x]);
-//        Serial.println(speed_[x]);
-//        Serial.println("____");
-//      }
-      Serial.println("======================================");
       if(mode=="I"){
         moveArms(arm,angles); 
       }else if(mode=="S"){
@@ -451,7 +439,9 @@ void moveArms_Simultaneously(int angle[]){
      }
      else{
        decrease_angle_simultaneously(current,angle[2],lElbow,rElbow,speed_[2]);
-       decrease_angle(rElbow.read(),(rElbow.read()-10),rElbow,speed_[2]);
+       if(current>10){
+         decrease_angle(rElbow.read(),(rElbow.read()-10),rElbow,speed_[2]);
+       }
      }
    }
 //   
@@ -459,9 +449,13 @@ void moveArms_Simultaneously(int angle[]){
    if(current!=angle[3]){
      if(angle[3] > current){
        increase_angle_simultaneously(current,angle[3],lWristRot,rWristRot,speed_[3]);
+       decrease_angle(rWristRot.read(),(rWristRot.read()-15),rWristRot,speed_[3]);
      }
      else{
        decrease_angle_simultaneously(current,angle[3],lWristRot,rWristRot,speed_[3]);
+       if(current>15){
+         decrease_angle(rWristRot.read(),(rWristRot.read()-15),rWristRot,speed_[3]);
+       }
      }
    }
 //   
@@ -479,9 +473,13 @@ void moveArms_Simultaneously(int angle[]){
    if(current!=angle[5]){
      if(angle[5] > current){
        increase_angle_simultaneously(current,angle[5],lWristRoll,rWristRoll,speed_[5]);
+       decrease_angle(rWristRoll.read(),(rWristRoll.read()-30),rWristRoll,speed_[5]);
      }
      else{
        decrease_angle_simultaneously(current,angle[5],lWristRoll,rWristRoll,speed_[5]);
+       if(current>40){
+         decrease_angle(rWristRoll.read(),(rWristRoll.read()-30),rWristRoll,speed_[5]);
+       }
      }
    }
    
